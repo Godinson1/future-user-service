@@ -23,7 +23,7 @@ COPY package.json ./
 
 COPY yarn.lock ./
 
-RUN yarn install --only=production
+RUN yarn --only=production
 
 COPY . .
 
