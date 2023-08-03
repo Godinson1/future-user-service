@@ -29,4 +29,10 @@ COPY . .
 
 COPY --from=development /usr/src/app/dist ./dist
 
+COPY start.sh .
+
+COPY wait-for.sh .
+
 CMD ["node", "dist/main"]
+
+ENTRYPOINT [ "/usr/src/app/start.sh" ]

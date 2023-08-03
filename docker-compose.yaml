@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  user:
+    image: godinson/future-user
+    container_name: future_user
+    ports:
+      - "8080:3003"
+    environment:
+      PGHOST: postgres
+      PGPASSWORD: password
+      PGDATABASE: future_auth
+      PGUSER: postgres
+      RABBIT_MQ_URI: amqp://rabbitmq:5672
+    depends_on:
+      - postgres
+    entrypoint: ["/usr/src/app/wait-for.sh", "postgres:5432", "--", "/usr/src/app/start.sh" ]
+    command: ["node", "dist/main"]
+    networks:
+      - future-app
+  postgres:
+    image: postgres:alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: future_auth
+    ports:
+      - "5432:5432"
+    networks:
+      - future-app
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  rabbitmq:
+    image: rabbitmq
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+    networks:
+      - future-app
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq/data
+volumes:
+  postgres:
+  rabbitmq:
+networks:
+  future-app:
+    driver: bridge
+    
