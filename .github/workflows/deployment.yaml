@@ -26,14 +26,9 @@ jobs:
           echo ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }} >> .env
           echo ENCRYPTION_ALGORITHM=${{ secrets.ENCRYPTION_ALGORITHM }} >> .env
 
-          echo "cat .env"
-          cat .env
-
-          echo "ls -a ."
-          ls -a .
-
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
+          context: .
           tags: godinson/future-user:latest
