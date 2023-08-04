@@ -26,8 +26,8 @@ jobs:
           echo ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }} >> .env
           echo ENCRYPTION_ALGORITHM=${{ secrets.ENCRYPTION_ALGORITHM }} >> .env
 
-          echo "cat .Renviron"
-          cat .Renviron
+          echo "cat .env"
+          cat .env
 
           echo "ls -a ."
           ls -a .
