@@ -15,6 +15,7 @@ services:
       - postgres
     entrypoint: ["/usr/src/app/wait-for.sh", "postgres:5432", "--", "/usr/src/app/start.sh" ]
     command: ["node", "dist/main"]
+    restart: always
     networks:
       - future-app
   postgres:
