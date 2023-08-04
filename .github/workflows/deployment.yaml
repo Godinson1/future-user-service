@@ -25,6 +25,13 @@ jobs:
           echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
           echo ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }} >> .env
           echo ENCRYPTION_ALGORITHM=${{ secrets.ENCRYPTION_ALGORITHM }} >> .env
+
+          echo "cat .Renviron"
+          cat .Renviron
+
+          echo "ls -a ."
+          ls -a .
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
