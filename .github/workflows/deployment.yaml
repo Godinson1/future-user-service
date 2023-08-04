@@ -26,5 +26,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
+          context: .
           push: true
           tags: godinson/future-user:latest
