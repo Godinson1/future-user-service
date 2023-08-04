@@ -10,12 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Update env
+      - name: 'Create env file'
         run: |
-          echo "JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}" > .env
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" > .env
-          echo "ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }}" > .env
-          echo "ENCRYPTION_ALGORITHM=${{ secrets.ENCRYPTION_ALGORITHM }}" > .env
+          echo "${{ secrets.ENV_FILE }}" > .env
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
