@@ -8,14 +8,19 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Update env
-        run: |
-          touch .env
-          echo JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }} >> .env
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
-          echo ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }} >> .env
-          echo ENCRYPTION_ALGORITHM=${{ secrets.ENCRYPTION_ALGORITHM }} >> .env
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_DEBUG: false
+          envkey_JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
+          envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          envkey_ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+          envkey_ENCRYPTION_ALGORITHM: ${{ secrets.ENCRYPTION_ALGORITHM }}
+          file_name: .env
+          fail_on_empty: false
+          sort_keys: false
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
