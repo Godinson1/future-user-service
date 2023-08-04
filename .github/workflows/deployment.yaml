@@ -21,6 +21,7 @@ jobs:
       - name: Update env
         run: |
           touch .env
+          touch app.env
           echo JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }} >> .env
           echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
           echo ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }} >> .env
@@ -30,5 +31,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          context: .
           tags: godinson/future-user:latest
