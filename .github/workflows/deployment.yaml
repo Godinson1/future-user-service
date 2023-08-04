@@ -13,16 +13,7 @@ jobs:
       - name: Update env
         run: |
           touch .env
-          echo JWT_EXPIRATION=${JWT_EXPIRATION} > .env
-          echo JWT_SECRET=${JWT_SECRET} > .env
-          echo ENCRYPTION_KEY=${ENCRYPTION_KEY} > .env
-          echo ENCRYPTION_ALGORITHM=${ENCRYPTION_ALGORITHM} > .env
-          cat .env
-        env:
-          JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
-          ENCRYPTION_ALGORITHM: ${{ secrets.ENCRYPTION_ALGORITHM }}
+          echo "${{ secrets.ENV_FILE }}" > .env
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
