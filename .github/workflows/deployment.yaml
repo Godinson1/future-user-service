@@ -9,6 +9,13 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Update env
+        run: |
+          touch .env
+          echo JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }} >> .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }} >> .env
+          echo ENCRYPTION_ALGORITHM=${{ secrets.ENCRYPTION_ALGORITHM }} >> .env
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -18,15 +25,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Update env
-        run: |
-          touch .env
-          touch app.env
-          echo JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }} >> .env
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
-          echo ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }} >> .env
-          echo ENCRYPTION_ALGORITHM=${{ secrets.ENCRYPTION_ALGORITHM }} >> .env
-
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
