@@ -4,7 +4,7 @@ services:
     image: godinson/future-user
     container_name: future_user
     ports:
-      - "8080:3003"
+      - "80:3003"
     environment:
       PGHOST: postgres
       PGPASSWORD: password
@@ -20,22 +20,22 @@ services:
       - future-app
   postgres:
     image: postgres:alpine
-    container_name: postgres
+    container_name: postgres-user
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: future_auth
     ports:
-      - "5432:5432"
+      - "5431:5432"
     networks:
       - future-app
     volumes:
       - postgres:/var/lib/postgresql/data
   rabbitmq:
     image: rabbitmq
-    container_name: rabbitmq
+    container_name: rabbitmq-user
     ports:
-      - "5672:5672"
+      - "5671:5672"
     networks:
       - future-app
     volumes:
