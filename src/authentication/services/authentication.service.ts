@@ -10,7 +10,6 @@ import { HashingAlgorithm } from 'src/user/entities/hashing_algorithm.entity';
 import { CreateUserDto, PasswordInfo } from 'src/user/dto/create-user.dto';
 import { UserLoginData } from 'src/user/entities/user_login_data.entity';
 import { UserService } from 'src/user/services/user.service';
-import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserCreatedDto } from '../dto/auth.dto';
 
 export interface TokenPayload {
@@ -23,7 +22,6 @@ export class AuthenticationService {
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
-    private readonly eventEmitter: EventEmitter2,
     private datasource: DataSource,
   ) {}
 
@@ -54,7 +52,6 @@ export class AuthenticationService {
     const user = await this.userService.createUser(userAccount);
     await this.generateLoginData(request, user);
     await this.login(user, response);
-    this.eventEmitter.emit('user.created', this.generateUserCreatedNotificationArg(user));
     return user;
   }
 
@@ -94,7 +91,7 @@ export class AuthenticationService {
     });
   }
 
-  private generateUserCreatedNotificationArg(user: UserProfile): UserCreatedDto {
+  generateUserCreatedNotificationArg(user: UserProfile): UserCreatedDto {
     return {
       firstName: user.firstName,
       lastName: user.lastName,

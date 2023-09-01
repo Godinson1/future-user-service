@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Response } from 'express';
 import { CurrentUser } from '../../decorators/current-user.decorator';
 import JwtAuthGuard from '../guards/jwt-auth.guard';
@@ -11,7 +12,10 @@ import { HashingAlgorithm } from 'src/user/entities/hashing_algorithm.entity';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthenticationService) {}
+  constructor(
+    private readonly authService: AuthenticationService,
+    private readonly eventEmitter: EventEmitter2,
+  ) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
@@ -29,6 +33,10 @@ export class AuthController {
   @Post('register')
   async register(@Body() request: CreateUserDto, @Res({ passthrough: true }) response: Response) {
     const user = await this.authService.createUser(request, response);
+    this.eventEmitter.emit(
+      'user.created',
+      this.authService.generateUserCreatedNotificationArg(user),
+    );
     response.send(user);
   }
 
