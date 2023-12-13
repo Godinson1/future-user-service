@@ -9,6 +9,7 @@ import { UserProfile } from '../../user/entities/user.entity';
 import { AuthenticationService } from '../services/authentication.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { HashingAlgorithm } from 'src/user/entities/hashing_algorithm.entity';
+import { UserDto } from 'future-connectors';
 
 @Controller('auth')
 export class AuthController {
@@ -51,8 +52,8 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @MessagePattern('validate_user')
-  async validateUser(@CurrentUser() user: UserProfile) {
-    return user;
+  @MessagePattern('authenticate')
+  async validateUser(@CurrentUser() user: UserProfile): Promise<UserDto> {
+    return this.authService.authUserResponse(user);
   }
 }

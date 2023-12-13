@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { RmqService } from 'future-connectors';
+import { RmqService, AUTH_SERVICE } from 'future-connectors';
 import { RmqOptions } from '@nestjs/microservices';
 import { json, urlencoded } from 'express';
 import helmet from 'helmet';
@@ -36,7 +36,7 @@ async function bootstrap() {
   app.use(urlencoded({ limit: '50mb', extended: true }));
 
   const rmqService = app.get<RmqService>(RmqService);
-  app.connectMicroservice<RmqOptions>(rmqService.getOptions('AUTH', true));
+  app.connectMicroservice<RmqOptions>(rmqService.getOptions(AUTH_SERVICE, true));
   await app.startAllMicroservices();
   const configService = app.get(ConfigService);
   await app.listen(configService.get('PORT'));

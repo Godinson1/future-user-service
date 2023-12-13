@@ -11,6 +11,7 @@ import { CreateUserDto, PasswordInfo } from 'src/user/dto/create-user.dto';
 import { UserLoginData } from 'src/user/entities/user_login_data.entity';
 import { UserService } from 'src/user/services/user.service';
 import { UserCreatedDto } from '../dto/auth.dto';
+import { UserDto } from 'future-connectors';
 
 export interface TokenPayload {
   userId: string;
@@ -98,6 +99,20 @@ export class AuthenticationService {
       email: user.email,
       phoneNumber: user.phoneNumber,
       futureId: user.futureId,
+    };
+  }
+
+  authUserResponse(user: UserProfile): UserDto {
+    const { id, futureId, email, phoneNumber, firstName, lastName, username, active } = user;
+    return {
+      id,
+      futureId,
+      email,
+      phoneNumber,
+      firstName,
+      lastName,
+      username,
+      active,
     };
   }
 }

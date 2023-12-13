@@ -18,6 +18,7 @@ export class AuthenticationEvents {
 
   @OnEvent('user.created')
   async handleUserCreatedPayment(user: UserCreatedDto) {
+    console.log('i got here');
     await lastValueFrom(this.paymentClient.emit('user.created', user));
   }
 }

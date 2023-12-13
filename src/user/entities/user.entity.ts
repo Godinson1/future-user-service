@@ -63,8 +63,8 @@ export class UserProfile {
   @Column({ name: 'date_of_birth', nullable: true, type: 'text' })
   dateOfBirth?: Date;
 
-  @Column({ name: 'active', nullable: true, type: 'text', default: false })
-  active?: string;
+  @Column({ name: 'active', nullable: true, type: 'boolean', default: false })
+  active?: boolean;
 
   @Column({ name: 'is_deleted', nullable: true, type: 'text', default: false })
   isDeleted?: string;

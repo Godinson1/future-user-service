@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: future-user-deployment
+  labels:
+    app: future-user
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: future-user
+  template:
+    metadata:
+      labels:
+        app: future-user
+    spec:
+      containers:
+      - name: future-user
+        image: godinson/future-user
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3001

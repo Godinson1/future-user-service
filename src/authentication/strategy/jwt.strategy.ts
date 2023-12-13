@@ -18,7 +18,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   extractTokenFromHeader(request: any): string | undefined {
-    const [type, token] = request.headers.cookie?.split('=') ?? [];
+    if (request?.Authentication) return request?.Authentication;
+    const [type, token] = request.headers?.cookie?.split('=') ?? [];
     return type === 'Authentication' ? token : undefined;
   }
 

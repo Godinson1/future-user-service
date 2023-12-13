@@ -5,18 +5,25 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { CreateUserDto, IFileDto } from '../dto/create-user.dto';
 import { UserRepository } from '../repositories/user.repository';
 import { UserLoginRepository } from '../repositories/user-login.repository';
 import { UserProfile } from '../entities/user.entity';
 import { UserLoginData } from '../entities/user_login_data.entity';
 import { UserProfileDetails } from '../entities/user_profile_details.entity';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { ConfigService } from '@nestjs/config';
+import { getS3Url } from 'src/shared/utils';
 
 @Injectable()
 export class UserService {
+  private readonly s3Region = this.configService.getOrThrow('AWS_S3_REGION');
+  private readonly s3Client = new S3Client({ region: this.s3Region });
+
   constructor(
     private readonly userRepository: UserRepository,
     private readonly userLoginRepository: UserLoginRepository,
+    private readonly configService: ConfigService,
   ) {}
 
   async getById(id: string) {
@@ -31,6 +38,17 @@ export class UserService {
 
   async createUserLoginData(user: UserLoginData): Promise<UserProfile> {
     return this.userLoginRepository.save(user);
+  }
+
+  async updateProfilePhoto(user: UserProfile, fileArg: IFileDto): Promise<UserProfile> {
+    const { key, buffer, mimetype } = fileArg;
+    const Bucket = this.configService.get('AWS_S3_PROFILE_BUCKET');
+    const foundUser = await this.getById(user.id);
+    await this.s3Client.send(
+      new PutObjectCommand({ Key: key, Bucket, Body: buffer, ContentType: mimetype }),
+    );
+    foundUser.profilePhoto = getS3Url(Bucket, key);
+    return this.userRepository.save(foundUser);
   }
 
   async generateUserAccount(request: CreateUserDto): Promise<UserProfile> {
