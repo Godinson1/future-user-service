@@ -1,6 +1,11 @@
 name: Build and push user service
 
 on:
+  workflow_run:
+    workflows: ['Future User Service tests']
+    branches: [master]
+    types:
+      - completed
   push:
     branches:
       - master
