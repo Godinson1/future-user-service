@@ -42,3 +42,28 @@ jobs:
           context: .
           push: true
           tags: godinson/future-user:latest
+
+      - name: Copy file via ssh
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          username: ${{ secrets.DEV_SERVER_USERNAME }}
+          key: ${{ secrets.DEV_KEY }}
+          source: 'docker-compose.yaml'
+          target: /home/${{ secrets.DEV_SERVER_USERNAME }}/future-user
+
+      - name: Deploy and run image on server
+        uses: appleboy/ssh-action@v1.0.0
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          username: ${{ secrets.DEV_SERVER_USERNAME }}
+          key: ${{ secrets.DEV_KEY }}
+          envs: DOCKERHUB_USERNAME,DOCKERHUB_PASSWORD
+          script: |
+            docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+            echo "$DC_ENV" > future-user/.env
+            docker compose -f future-user/docker-compose.yaml down
+            docker compose -f future-user/docker-compose.yaml up -d
