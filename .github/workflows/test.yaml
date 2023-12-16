@@ -1,0 +1,55 @@
+name: Future User Service tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: '*'
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: future-user_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: checkout-repo
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Run migrations and test
+        run: yarn test
+        env:
+          NODE_EN: test
+          DATABASE_LOGGING: false
+          PGHOST: localhost  
+          PGPORT: 5432
+          PGUSER: postgres 
+          PGPASSWORD: postgres 
+          PGDATABASE: future-user
+          PORT: 3001
+          JWT_EXPIRATION: 3600
+          JWT_SECRET: test_d8zoWg7fDmYEnyy
+          RABBIT_MQ_URI: amqps://oqujolfp:61WSO-Xwj40QpP7w6MGMG1ChoAcMwU1Z@beaver.rmq.cloudamqp.com/oqujolfp
+          RABBIT_MQ_AUTH_QUEUE: auth
+

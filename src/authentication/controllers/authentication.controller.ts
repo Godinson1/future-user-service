@@ -20,25 +20,31 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@CurrentUser() user: UserProfile, @Res({ passthrough: true }) response: Response) {
+  async login(
+    @CurrentUser() user: UserProfile,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<Response> {
     await this.authService.login(user, response);
-    response.send(user);
+    return response.send(user);
   }
 
   @Post('logout')
-  async logout(@Res({ passthrough: true }) response: Response) {
-    await this.authService.logout(response);
-    response.send({ message: 'Logged out successfully!' });
+  async logout(@Res({ passthrough: true }) response: Response): Promise<Response> {
+    this.authService.logout(response);
+    return response.send({ message: 'Logged out successfully!' });
   }
 
   @Post('register')
-  async register(@Body() request: CreateUserDto, @Res({ passthrough: true }) response: Response) {
+  async register(
+    @Body() request: CreateUserDto,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<Response> {
     const user = await this.authService.createUser(request, response);
     this.eventEmitter.emit(
       'user.created',
       this.authService.generateUserCreatedNotificationArg(user),
     );
-    response.send(user);
+    return response.send(user);
   }
 
   @Post('hash-algorithm')

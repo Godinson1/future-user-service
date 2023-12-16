@@ -1,35 +1,14 @@
-import { IsEmpty, IsUUID, MaxLength, IsDate } from 'class-validator';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { MaxLength, IsDate } from 'class-validator';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { UserProfile } from './user.entity';
 import { HashingAlgorithm } from './hashing_algorithm.entity';
+import { AbstractEntity } from './abstract.entity';
 
 @Entity({ name: 'user_login_data' })
-export class UserLoginData {
-  @PrimaryGeneratedColumn('uuid')
-  @IsEmpty()
-  @IsUUID('4')
-  id?: string;
-
+export class UserLoginData extends AbstractEntity<UserLoginData> {
   @OneToOne(() => UserProfile)
   @JoinColumn()
   user?: UserProfile;
-
-  @IsDate()
-  @CreateDateColumn({ name: 'created_date' })
-  createdDate?: Date;
-
-  @IsDate()
-  @UpdateDateColumn({ name: 'updated_date' })
-  updatedDate?: Date;
 
   @IsDate()
   @CreateDateColumn({ name: 'token_generation_time' })

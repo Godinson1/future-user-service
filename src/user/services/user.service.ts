@@ -53,15 +53,16 @@ export class UserService {
 
   async generateUserAccount(request: CreateUserDto): Promise<UserProfile> {
     const { firstName, lastName, email, phoneNumber } = request;
-    const user = new UserProfile();
-    const userDetails = new UserProfileDetails();
+    const userDetails = new UserProfileDetails({});
     const futureId = this.generateFutureId();
-    user.firstName = firstName;
-    user.lastName = lastName;
-    user.email = email;
-    user.futureId = futureId;
-    user.phoneNumber = phoneNumber;
-    user.details = userDetails;
+    const user = new UserProfile({
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      futureId: futureId,
+      phoneNumber: phoneNumber,
+      details: userDetails,
+    });
     return user;
   }
 

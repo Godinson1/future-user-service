@@ -61,14 +61,15 @@ export class AuthenticationService {
     user: UserProfile,
   ): Promise<UserLoginData> {
     const { email, phoneNumber, password } = request;
-    const userLoginData = new UserLoginData();
     const { passwordHash, salt, hashingAlgorithm } = await this.generatePasswordInfo(password);
-    userLoginData.email = email;
-    userLoginData.phoneNumber = phoneNumber;
-    userLoginData.passwordHash = passwordHash;
-    userLoginData.passwordSalt = salt;
-    userLoginData.hashAlgorithm = hashingAlgorithm;
-    userLoginData.user = user;
+    const userLoginData = new UserLoginData({
+      email: email,
+      phoneNumber: phoneNumber,
+      passwordHash: passwordHash,
+      passwordSalt: salt,
+      hashAlgorithm: hashingAlgorithm,
+      user,
+    });
     const loginData = await this.userService.createUserLoginData(userLoginData);
     return loginData;
   }

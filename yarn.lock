@@ -2065,6 +2065,11 @@
     "@types/connect" "*"
     "@types/node" "*"
 
+"@types/chance@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@types/chance/-/chance-1.1.6.tgz#2fe3de58742629602c3fbab468093b27207f04ad"
+  integrity sha512-V+pm3stv1Mvz8fSKJJod6CglNGVqEQ6OyuqitoDkWywEODM/eJd1eSuIp9xt6DrX8BWZ2eDSIzbw1tPCUTvGbQ==
+
 "@types/connect@*":
   version "3.4.35"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.35.tgz#5fcf6ae445e4021d1fc2219a4873cc73a3bb2ad1"
@@ -2220,6 +2225,11 @@
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.4.tgz#cd667bcfdd025213aafb7ca5915a932590acdcdc"
   integrity sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
+
+"@types/rosie@^0.0.45":
+  version "0.0.45"
+  resolved "https://registry.yarnpkg.com/@types/rosie/-/rosie-0.0.45.tgz#60c50ba496c36fa2018321ae1a224fb1d679413a"
+  integrity sha512-t3ZEJ4xIE5CaJnsWcU+nY8R7rhvIEfX2xHNpvK6mA+CwUyvYJJ7SdU+pIodqTv0w4I0cBCWuJ4wzmwZOsjZdOg==
 
 "@types/semver@^7.3.12":
   version "7.5.0"
@@ -3011,6 +3021,11 @@ chalk@^2.0.0, chalk@^2.4.1:
     ansi-styles "^3.2.1"
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
+
+chance@^1.1.11:
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/chance/-/chance-1.1.11.tgz#78e10e1f9220a5bbc60a83e3f28a5d8558d84d1b"
+  integrity sha512-kqTg3WWywappJPqtgrdvbA380VoXO2eu9VCV895JgbyHsaErXdyHK9LOZ911OvAk6L0obK7kDk9CGs8+oBawVA==
 
 char-regex@^1.0.2:
   version "1.0.2"
@@ -6384,6 +6399,11 @@ rimraf@^3.0.2:
   integrity sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
   dependencies:
     glob "^7.1.3"
+
+rosie@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/rosie/-/rosie-2.1.1.tgz#f8c9b8145d581d19fb1c933cf6ac1c554ad68798"
+  integrity sha512-2AXB7WrIZXtKMZ6Q/PlozqPF5nu/x7NEvRJZOblrJuprrPfm5gL8JVvJPj9aaib9F8IUALnLUFhzXrwEtnI5cQ==
 
 run-async@^2.4.0:
   version "2.4.1"

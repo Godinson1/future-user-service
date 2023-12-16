@@ -1,36 +1,15 @@
-import { IsEmpty, IsUUID, MaxLength, IsDate } from 'class-validator';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { MaxLength } from 'class-validator';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { UserProfileDetails } from './user_profile_details.entity';
 import { UserRoles } from './user_roles.entity';
 import { UserType } from 'src/constants';
+import { AbstractEntity } from './abstract.entity';
 
 @Entity({ name: 'user_profiles' })
-export class UserProfile {
-  @PrimaryGeneratedColumn('uuid')
-  @IsEmpty()
-  @IsUUID('4')
-  id?: string;
-
+export class UserProfile extends AbstractEntity<UserProfile> {
   @MaxLength(10)
   @Column({ name: 'future_id', nullable: false, unique: true, type: 'text' })
   futureId?: string;
-
-  @IsDate()
-  @CreateDateColumn({ name: 'created_date' })
-  createdDate?: Date;
-
-  @IsDate()
-  @UpdateDateColumn({ name: 'updated_date' })
-  updatedDate?: Date;
 
   @Column({ name: 'first_name', nullable: true, type: 'text' })
   firstName?: string;
